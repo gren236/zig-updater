@@ -15,3 +15,8 @@ Requires sudo elevation.
 
 For now it works for MacOS only, support for other architectures is on the
 roadmap.
+
+## Installation
+
+1. [Install Fisher plugin manager](https://github.com/jorgebucaran/fisher?tab=readme-ov-file#installation)
+2. Install this plugin with `fisher install gren236/zig-updater`
