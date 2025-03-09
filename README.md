@@ -16,6 +16,11 @@ Requires sudo elevation.
 For now it works for MacOS only, support for other architectures is on the
 roadmap.
 
+## Requirements
+
+1. [curl](https://curl.se/)
+2. [jq](https://jqlang.org/)
+
 ## Installation
 
 1. [Install Fisher plugin manager](https://github.com/jorgebucaran/fisher?tab=readme-ov-file#installation)
