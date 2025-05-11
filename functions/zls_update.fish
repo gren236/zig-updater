@@ -12,8 +12,18 @@ function zls_update
 
     mkdir /tmp/zls_update
 
+    switch (uname)
+        case Linux
+            set -f query '."x86_64-linux".tarball'
+        case Darwin
+            set -f query '."aarch64-macos".tarball'
+        case '*'
+            echo "Unsupported OS"
+            return
+    end
+
     echo "Downloading tarball for version $zls_version..."
-    curl -L -o /tmp/zls_update/zls.tar.xz (echo $remote_json | jq -r '."aarch64-macos".tarball')
+    curl -L -o /tmp/zls_update/zls.tar.xz (echo $remote_json | jq -r $query)
 
     echo "Unpacking tarball..."
     mkdir /tmp/zls_update/unpacked

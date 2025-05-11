@@ -8,8 +8,18 @@ function zig_update
 
     mkdir /tmp/zig_update
 
+    switch (uname)
+        case Linux
+            set -f query '.master."x86_64-linux".tarball'
+        case Darwin
+            set -f query '.master."aarch64-macos".tarball'
+        case '*'
+            echo "Unsupported OS"
+            return
+    end
+
     echo "Downloading metadata..."
-    set -l tar_url (echo $remote_json | jq -r '.master."aarch64-macos".tarball')
+    set -l tar_url (echo $remote_json | jq -r $query)
 
     echo "Downloading tarball..."
     curl -o /tmp/zig_update/zig.tar.xz $tar_url
