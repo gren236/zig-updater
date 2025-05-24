@@ -22,7 +22,7 @@ function zls_update
             return
     end
 
-    echo "Downloading tarball for version $zls_version..."
+    echo "Downloading tarball for version corresponding to Zig: $(zig version)"
     curl -L -o /tmp/zls_update/zls.tar.xz (echo $remote_json | jq -r $query)
 
     echo "Unpacking tarball..."

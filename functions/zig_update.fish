@@ -1,8 +1,24 @@
 function zig_update
+    set -f zig_version_install "$argv[1]"
+    set -f current_zig_version (zig version)
+
+    if test -z "$zig_version_install"
+        set -f zig_version_install master
+    end
+
+    echo "Zig install version is set to: $zig_version_install"
+
     set -l remote_json (curl https://ziglang.org/download/index.json)
 
-    if test (zig version) = (echo $remote_json | jq -r '.master.version')
-        echo "Already up to date"
+    if test "$zig_version_install" = master
+        if test "$current_zig_version" = (echo $remote_json | jq -r '.master.version')
+            echo "Already installed"
+            return
+        end
+    end
+
+    if test -z "$(echo $remote_json | jq -r ".\"$zig_version_install\"")"
+        echo "Version $zig_version_install not found"
         return
     end
 
@@ -10,9 +26,9 @@ function zig_update
 
     switch (uname)
         case Linux
-            set -f query '.master."x86_64-linux".tarball'
+            set -f query ".\"$zig_version_install\".\"x86_64-linux\".tarball"
         case Darwin
-            set -f query '.master."aarch64-macos".tarball'
+            set -f query ".\"$zig_version_install\".\"aarch64-macos\".tarball"
         case '*'
             echo "Unsupported OS"
             return
